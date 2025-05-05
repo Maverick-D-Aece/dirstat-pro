@@ -68,7 +68,7 @@ uv pip install dirstat-pro
 ### From Source
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/dirstat-pro.git
+git clone https://github.com/Maverick-D-Aece/dirstat-pro.git
 cd dirstat-pro
 
 # Create and activate a virtual environment (optional but recommended)
@@ -164,7 +164,7 @@ Options:
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/yourusername/dirstat-pro.git
+git clone https://github.com/Maverick-D-Aece/dirstat-pro.git
 cd dirstat-pro
 ```
 
