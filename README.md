@@ -1,263 +1,180 @@
 # 🚀 DirStat Pro
 
-A powerful command-line tool for comprehensive directory analysis, storage optimization, and metadata management.
+**DirStat Pro** is a powerful command-line tool for comprehensive directory analysis, storage optimization, and metadata management.
 
-## ✨ Features
+## ✨ Key Features
 
-### 📊 Core Features
-- 🔍 Recursive directory traversal and analysis
-- 📝 Detailed metadata summaries
-- 📈 File statistics and distribution analysis
-- 🎨 Beautiful, interactive CLI interface
-- 💾 Multiple export formats (JSON, CSV, HTML, Markdown)
+### 📊 Directory Analysis
+- 🔍 Recursive directory traversal and summary
+- 📝 Metadata extraction and reporting
+- 📈 File statistics with size, type, and distribution insights
+- 🎨 Interactive and color-rich CLI interface
+- 💾 Export results in JSON, CSV, HTML, and Markdown
 
-### 🔬 Code Analysis
-- 📊 Line counting and complexity metrics
-- 🔐 Secret detection in source code
-- 🎯 Language detection and statistics
-- 🔄 Duplicate code identification
-- 📈 Cyclomatic complexity analysis
-- 🔍 Nesting depth analysis
+### 🔬 Code Intelligence
+- 📊 Count lines of code and analyze complexity
+- 🔐 Scan for secrets in source files
+- 🧠 Detect programming languages and analyze usage
+- 🔁 Identify duplicate code segments
+- 📈 Evaluate cyclomatic complexity and nesting depth
 
-### 📦 Dependency Analysis
-- 📊 Project dependency scanning
-- 🔄 Outdated package detection
-- 🛡️ Security vulnerability checking
-- 🎯 Project type detection
-- 📈 Import analysis and validation
-- 🔍 Unused dependency detection
+### 📦 Dependency Insight
+- 📊 Analyze project dependencies across environments
+- 🔄 Detect outdated packages
+- 🛡️ Perform security vulnerability scans
+- 🧭 Auto-detect project types and configurations
+- 📈 Analyze imports and unused dependencies
 
-### 🔄 Git Integration
-- 📥 Track Git repository status
-- 👀 Monitor tracked/untracked files
-- 🔄 Detect modified files
-- ⚡ Git-aware filtering
+### 🔄 Git-Aware Analysis
+- 📥 Detect Git repository status
+- 👀 List tracked, untracked, and modified files
+- 🔄 Filter data by Git status
 
 ### 💽 Storage Optimization
-- 🔍 Find duplicate files
-- 📦 Identify large files
+- 🔍 Identify duplicate and large files
 - 🗑️ Detect temporary and cache files
-- 🔄 Find compressible files
-- 💾 Identify old backups
-- 📊 Estimate potential space savings
+- 🧼 Find old backups and compressible candidates
+- 📊 Estimate space-saving potential
 
-### 🎯 Advanced Filtering
-- 📅 Filter by file age/modification date
-- 📏 Filter by file size ranges
-- 🎯 Complex pattern matching
-- 🔍 Multiple include/exclude patterns
-- 🎨 Customizable filter combinations
+### 🎯 Filtering Capabilities
+- 📅 Filter files by modification date or age
+- 📏 Restrict analysis by size thresholds
+- 🔍 Match patterns using include/exclude filters
+- ⚙️ Customize filter logic for precision targeting
 
-### ⚡ Performance Features
-- 🚀 Parallel processing for large directories
-- 💾 Result caching
-- 🔄 Real-time monitoring
-- 📈 Incremental updates
+### ⚡ Performance & Efficiency
+- 🚀 Parallel processing for scalable performance
+- 💾 Smart result caching
+- 🔄 Real-time directory monitoring
+- 📈 Incremental file system updates
 
 ## 📦 Installation
 
-### Using pip with uv (Recommended)
+### Recommended: Using `uv` and `pip`
 ```bash
-# Install uv if you haven't already
 curl -LsSf https://astral.sh/uv/install.sh | sh
-
-# Install dirstat-pro
 uv pip install dirstat-pro
 ```
 
-### From Source
+### Manual Installation (From Source)
 ```bash
-# Clone the repository
 git clone https://github.com/Maverick-D-Aece/dirstat-pro.git
 cd dirstat-pro
-
-# Create and activate a virtual environment (optional but recommended)
 python -m venv .venv
 source .venv/bin/activate  # On Windows: .venv\Scripts\activate
-
-# Install dependencies with uv
 uv pip install -r requirements.txt
 ```
 
-## 🚀 Usage
+## 🚀 Getting Started
 
-Basic usage:
+### Basic Usage
 ```bash
 dirstat /path/to/directory
 ```
 
-### Common Options
-
+### Common Scenarios
 ```bash
-# Basic directory analysis
+# Analyze directory with limited depth
 dirstat . --depth 2 --output-name "summary.txt"
 
-# Enable Git integration
+# Analyze only Git-tracked files
 dirstat . --git --git-only
 
-# Storage optimization
+# Find duplicates and large files
 dirstat . --find-duplicates --min-size 100MB
 
-# Advanced filtering
-dirstat . \
-  --min-age 30 \
-  --max-size 1GB \
-  --include "*.{py,js}" \
-  --exclude "test_*"
+# Apply advanced filters
+dirstat . --min-age 30 --max-size 1GB --include "*.py" --exclude "test_*"
 
-# Performance optimization
+# Maximize performance
 dirstat . --parallel --jobs 4 --cache --monitor
 ```
 
-### All Available Options
+## 🧰 Command-Line Options
 
-```bash
-Options:
-  Directory Processing:
-    PATH                          Root directory to process [default: .]
-    -d, --depth INTEGER          Maximum directory depth [default: None]
-    -o, --output-name TEXT       Output filename [default: .folder_summary.txt]
-    -n, --top-n INTEGER         Number of largest files to show [default: 5]
-    -i, --include-hidden        Include hidden files/directories
-    -h, --human-readable        Show human-readable sizes [default: True]
-    --dry-run                   Preview without writing files
-    -v, --verbose              Enable verbose output
+_(For full help, run `dirstat --help`)_
 
-  Git Integration:
-    -g, --git                  Enable Git integration
-    --git-only                 Only process Git-tracked files
+### General Options
+- `--depth`, `--output-name`, `--top-n`, `--include-hidden`, `--human-readable`
+- `--dry-run`, `--verbose`
 
-  Advanced Filtering:
-    --min-age INTEGER          Only include files older than N days
-    --max-age INTEGER          Only include files newer than N days
-    --min-size TEXT            Minimum file size (e.g., '1MB', '500KB')
-    --max-size TEXT            Maximum file size (e.g., '1GB', '10MB')
-    --include TEXT             Include files matching pattern (multiple allowed)
-    --exclude TEXT             Exclude files matching pattern (multiple allowed)
+### Git Integration
+- `--git`, `--git-only`
 
-  Code Analysis:
-    --analyze-code            Enable code analysis features
-    --detect-secrets         Scan for potential secrets in code
-    --complexity-threshold   Maximum cyclomatic complexity threshold
-    --max-nesting           Maximum allowed nesting depth
-    --detect-duplicates     Find duplicate code segments
+### Advanced Filters
+- `--min-age`, `--max-age`, `--min-size`, `--max-size`
+- `--include`, `--exclude`
 
-  Dependency Analysis:
-    --check-dependencies    Scan and analyze project dependencies
-    --security-scan        Check for security vulnerabilities
-    --outdated-check      Check for outdated packages
-    --unused-deps         Detect unused dependencies
-    --project-type        Auto-detect and analyze project type
+### Code Analysis
+- `--analyze-code`, `--detect-secrets`, `--complexity-threshold`
+- `--max-nesting`, `--detect-duplicates`
 
-  Performance:
-    --parallel/--no-parallel   Enable/disable parallel processing [default: True]
-    -j, --jobs INTEGER         Number of parallel jobs (-1 for auto)
-    --cache/--no-cache        Enable/disable result caching [default: True]
-    -m, --monitor             Enable real-time monitoring for changes
+### Dependency Analysis
+- `--check-dependencies`, `--security-scan`, `--outdated-check`
+- `--unused-deps`, `--project-type`
 
-  Other:
-    --version                  Show version information
-    --help                    Show this help message and exit
-```
+### Performance
+- `--parallel`, `--jobs`, `--cache`, `--monitor`
+
+### Miscellaneous
+- `--version`, `--help`
 
 ## 🛠 Development
 
-1. Clone the repository:
 ```bash
 git clone https://github.com/Maverick-D-Aece/dirstat-pro.git
 cd dirstat-pro
-```
-
-2. Create a virtual environment and install development dependencies:
-```bash
 python -m venv .venv
-source .venv/bin/activate  # On Windows: .venv\Scripts\activate
-
-# Install development dependencies with uv
+source .venv/bin/activate  # Windows: .venv\Scripts\activate
 uv pip install -r requirements-dev.txt
 ```
 
-3. Run tests and checks:
+### Run Tests & Checks
 ```bash
-# Run tests (includes coverage report)
-pytest
-
-# Run linting
-ruff check .
-
-# Run type checking (optional)
-mypy folder_summary
+pytest          # Run tests with coverage
+ruff check .    # Lint code
+mypy folder_summary  # Type checks (optional)
+uv pip install -e .  # Dev install
 ```
 
-4. Install in development mode:
-```bash
-uv pip install -e .
+## 📤 Output Formats
+
+### CLI Text Summary Example
 ```
+📁 Directory Summary: /project
+📅 Date: 2024-02-20 15:30:45
 
-## 🔄 Output Formats
+📊 Stats:
+  • Files: 42 | Folders: 5 | Size: 128.5 MB
 
-### Text Summary
-```
-📁 Directory Summary for: /path/to/dir
-📅 Generated on: 2024-02-20 15:30:45
-==================================================
-📊 Statistics:
-  • Total Files: 42
-  • Total Subdirectories: 5
-  • Total Size: 128.5 MB
+📋 Extensions:
+  • .py (15 files, 2.3 MB)
+  • .json (4 files, 45.8 KB)
 
-📋 Files by Extension:
-  • .py: 15 files (2.3 MB)
-  • .txt: 8 files (156.2 KB)
-  • .json: 4 files (45.8 KB)
-
-📦 Storage Analysis:
-  • Duplicate Files: 3 sets found (potential savings: 25.6 MB)
-  • Large Files (>100MB): 2 files
-  • Temporary Files: 15 files (78.9 MB)
-  • Compression Candidates: 8 files
+📦 Storage:
+  • Duplicates: 3 sets (25.6 MB savings)
+  • Large files: 2
+  • Temp files: 15 (78.9 MB)
+  • Compressible: 8
 
 🔄 Git Status:
-  • Tracked (unchanged): 45 files
-  • Modified/Staged: 3 files
-  • Untracked: 12 files
+  • Tracked: 45 | Modified: 3 | Untracked: 12
 ```
 
 ### Other Formats
-- Export to JSON for programmatic analysis
-- Generate CSV for spreadsheet processing
-- Create interactive HTML reports with visualizations
-- Produce Markdown for documentation
+- JSON: Structured data export
+- CSV: Spreadsheet-ready
+- HTML: Interactive report
+- Markdown: Shareable summaries
 
 ## 🤝 Contributing
 
 1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/amazing-feature`)
-3. Install development dependencies (`uv pip install -r requirements-dev.txt`)
-4. Make your changes
-5. Run tests and linting (`pytest tests/ && ruff check .`)
-6. Commit your changes (`git commit -m 'Add amazing feature'`)
-7. Push to the branch (`git push origin feature/amazing-feature`)
-8. Open a Pull Request
+2. Create your feature branch: `git checkout -b feature/xyz`
+3. Install dev dependencies: `uv pip install -r requirements-dev.txt`
+4. Make changes and commit: `git commit -m 'Add new feature'`
+5. Push and open a PR: `git push origin feature/xyz`
 
 ## 📝 License
 
-MIT License
-
-Code and dependency analysis:
-```bash
-# Analyze code complexity and detect secrets
-dirstat . --analyze-code --detect-secrets
-
-# Scan for outdated dependencies and security issues
-dirstat . --check-dependencies --security-scan
-
-# Combined analysis with Git integration
-dirstat . \
-  --analyze-code \
-  --check-dependencies \
-  --git \
-  --include "*.py" \
-  --exclude "test_*" \
-  --parallel
-```
+Licensed under the MIT License.
