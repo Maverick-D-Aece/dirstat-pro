@@ -8,6 +8,7 @@ from typing import Dict, List, Optional, Tuple
 import humanize
 
 from .git_utils import GitInfo
+from .advanced_filters import FileFilter
 
 
 class FileStats:
@@ -32,12 +33,15 @@ class DirectoryMetadata:
         self.git_tracked_files = 0
         self.git_modified_files = 0
         self.git_untracked_files = 0
+        self.file_filter = FileFilter()
 
     def process_directory(
         self,
         include_hidden: bool = False,
         git_integration: bool = False,
-        git_only: bool = False
+        git_only: bool = False,
+        include_patterns: Optional[List[str]] = None,
+        exclude_patterns: Optional[List[str]] = None
     ) -> None:
         """Process the directory and collect metadata."""
         if git_integration:
@@ -45,24 +49,37 @@ class DirectoryMetadata:
             if git_only and not self.git_info.is_git_repo:
                 return
 
+        # Set up file filtering
+        if include_patterns or exclude_patterns:
+            self.file_filter.set_patterns(include_patterns, exclude_patterns)
+
+        # Count subdirectories first
         for item in self.path.iterdir():
+            if item.is_dir():
+                if include_hidden or not item.name.startswith('.'):
+                    if not (git_integration and item.name == '.git'):
+                        self.total_subdirs += 1
+
+        # Process files recursively
+        for item in self.path.rglob("*"):
+            # Skip directories
+            if not item.is_file():
+                continue
+
             # Skip hidden files/directories if not included
-            if not include_hidden and item.name.startswith('.'):
+            if not include_hidden and any(p.name.startswith('.') for p in item.parents):
                 continue
 
             # Skip .git directory by default in git mode
-            if git_integration and item.name == '.git':
+            if git_integration and '.git' in item.parts:
                 continue
 
             # Skip non-git files in git-only mode
-            if git_only and self.git_info and item.is_file():
-                if item not in self.git_info.get_tracked_files():
-                    continue
+            if git_only and self.git_info and item not in self.git_info.get_tracked_files():
+                continue
 
-            if item.is_file():
+            if self.file_filter.matches(item):
                 self._process_file(item, git_integration)
-            elif item.is_dir():
-                self.total_subdirs += 1
 
     def _process_file(self, file_path: Path, git_integration: bool = False) -> None:
         """Process a single file and update statistics."""
@@ -167,6 +184,8 @@ def process_directory(
     human_readable: bool = True,
     git_integration: bool = False,
     git_only: bool = False,
+    include_patterns: Optional[List[str]] = None,
+    exclude_patterns: Optional[List[str]] = None,
 ) -> Dict[Path, DirectoryMetadata]:
     """
     Recursively process directories and generate metadata summaries.
@@ -180,6 +199,8 @@ def process_directory(
         human_readable: Use human-readable file sizes
         git_integration: Enable Git integration features
         git_only: Only process Git-tracked files
+        include_patterns: List of glob patterns to include
+        exclude_patterns: List of glob patterns to exclude
 
     Returns:
         Dictionary mapping directory paths to their metadata
@@ -194,7 +215,9 @@ def process_directory(
         metadata.process_directory(
             include_hidden=include_hidden,
             git_integration=git_integration,
-            git_only=git_only
+            git_only=git_only,
+            include_patterns=include_patterns,
+            exclude_patterns=exclude_patterns
         )
         results[current_path] = metadata
 

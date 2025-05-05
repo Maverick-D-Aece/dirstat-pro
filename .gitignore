@@ -4,4 +4,6 @@ dist
 
 */__pycache__
 
-
+.folder_summary.txt
+*/.folder_summary.txt
+*/*/.folder_summary.txt

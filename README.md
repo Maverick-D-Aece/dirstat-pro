@@ -11,6 +11,22 @@ A powerful command-line tool for comprehensive directory analysis, storage optim
 - 🎨 Beautiful, interactive CLI interface
 - 💾 Multiple export formats (JSON, CSV, HTML, Markdown)
 
+### 🔬 Code Analysis
+- 📊 Line counting and complexity metrics
+- 🔐 Secret detection in source code
+- 🎯 Language detection and statistics
+- 🔄 Duplicate code identification
+- 📈 Cyclomatic complexity analysis
+- 🔍 Nesting depth analysis
+
+### 📦 Dependency Analysis
+- 📊 Project dependency scanning
+- 🔄 Outdated package detection
+- 🛡️ Security vulnerability checking
+- 🎯 Project type detection
+- 📈 Import analysis and validation
+- 🔍 Unused dependency detection
+
 ### 🔄 Git Integration
 - 📥 Track Git repository status
 - 👀 Monitor tracked/untracked files
@@ -119,6 +135,20 @@ Options:
     --include TEXT             Include files matching pattern (multiple allowed)
     --exclude TEXT             Exclude files matching pattern (multiple allowed)
 
+  Code Analysis:
+    --analyze-code            Enable code analysis features
+    --detect-secrets         Scan for potential secrets in code
+    --complexity-threshold   Maximum cyclomatic complexity threshold
+    --max-nesting           Maximum allowed nesting depth
+    --detect-duplicates     Find duplicate code segments
+
+  Dependency Analysis:
+    --check-dependencies    Scan and analyze project dependencies
+    --security-scan        Check for security vulnerabilities
+    --outdated-check      Check for outdated packages
+    --unused-deps         Detect unused dependencies
+    --project-type        Auto-detect and analyze project type
+
   Performance:
     --parallel/--no-parallel   Enable/disable parallel processing [default: True]
     -j, --jobs INTEGER         Number of parallel jobs (-1 for auto)
@@ -213,3 +243,21 @@ uv pip install -e .
 ## 📝 License
 
 MIT License
+
+Code and dependency analysis:
+```bash
+# Analyze code complexity and detect secrets
+dirstat . --analyze-code --detect-secrets
+
+# Scan for outdated dependencies and security issues
+dirstat . --check-dependencies --security-scan
+
+# Combined analysis with Git integration
+dirstat . \
+  --analyze-code \
+  --check-dependencies \
+  --git \
+  --include "*.py" \
+  --exclude "test_*" \
+  --parallel
+```

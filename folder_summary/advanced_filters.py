@@ -22,8 +22,8 @@ class FileFilter:
         self.age_min: Optional[timedelta] = None
         self.age_max: Optional[timedelta] = None
         self.extensions: Optional[Set[str]] = None
-        self.exclude_patterns: Set[str] = set()
-        self.include_patterns: List[str] = []
+        self.exclude_patterns: List[re.Pattern] = []
+        self.include_patterns: List[re.Pattern] = []
         self._spec: Optional[pathspec.PathSpec] = None
         self.exclude_spec: Optional[pathspec.PathSpec] = None
 
@@ -56,7 +56,7 @@ class FileFilter:
 
     def add_exclude_pattern(self, pattern: str) -> None:
         """Add a pattern to exclude from results."""
-        self.exclude_patterns.add(pattern)
+        self.exclude_patterns.append(re.compile(pattern))
 
     def set_patterns(
         self,
@@ -64,10 +64,19 @@ class FileFilter:
         exclude_patterns: Optional[List[str]] = None
     ) -> None:
         """Set include and exclude patterns for file filtering."""
+        def glob_to_regex(pattern: str) -> str:
+            """Convert glob pattern to regex pattern."""
+            pattern = re.escape(pattern)
+            pattern = pattern.replace(r'\*', '.*')
+            pattern = pattern.replace(r'\?', '.')
+            pattern = pattern.replace(r'\[', '[')
+            pattern = pattern.replace(r'\]', ']')
+            return f'^{pattern}$'
+
         if include_patterns is not None:
-            self.include_patterns = [re.compile(pattern) for pattern in include_patterns]
+            self.include_patterns = [re.compile(glob_to_regex(pattern)) for pattern in include_patterns]
         if exclude_patterns is not None:
-            self.exclude_patterns = [re.compile(pattern) for pattern in exclude_patterns]
+            self.exclude_patterns = [re.compile(glob_to_regex(pattern)) for pattern in exclude_patterns]
 
     def set_size_constraints(
         self,
@@ -136,15 +145,13 @@ class FileFilter:
                 return False
 
             # Check exclude patterns
-            if any(pattern in str(file_path) for pattern in self.exclude_patterns):
+            str_path = str(file_path)
+            if any(pattern.search(str_path) for pattern in self.exclude_patterns):
                 return False
 
-            # Check patterns
-            str_path = str(file_path)
-            if self.exclude_spec and self.exclude_spec.match_file(str_path):
-                return False
-            if self._spec is not None:
-                return self._spec.match_file(str_path)
+            # Check include patterns
+            if self.include_patterns:
+                return any(pattern.search(str_path) for pattern in self.include_patterns)
 
             return True
         except (OSError, PermissionError):
@@ -185,7 +192,7 @@ class FileFilter:
             report['extensions'] = list(self.extensions)
 
         if self.exclude_patterns:
-            report['exclude_patterns'] = list(self.exclude_patterns)
+            report['exclude_patterns'] = [pattern.pattern for pattern in self.exclude_patterns]
 
         return report
 

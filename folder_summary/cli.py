@@ -386,6 +386,8 @@ def main(
                 human_readable=human_readable,
                 git_integration=git_integration,
                 git_only=git_only,
+                include_patterns=include_pattern,
+                exclude_patterns=exclude_pattern
             )
             progress.update(task, completed=True)
 
