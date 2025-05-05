@@ -1,0 +1,22 @@
+📁 Directory Summary for: /home/maverick-d-aece/Workspace/EXPERIMENTAL/metadata-processor/folder_summary
+📅 Generated on: 2025-05-05 23:42:40
+==================================================
+📊 Statistics:
+  • Total Files: 9
+  • Total Subdirectories: 1
+  • Total Size: 83.2 kB
+
+🔄 Git Status:
+  • Tracked (unchanged): 0 files
+  • Modified/Staged: 0 files
+  • Untracked: 9 files
+
+📋 Files by Extension:
+  • .py                    9 files    83.2 kB
+
+📦 Largest Files:
+  • storage_utils.py: 15.7 kB [??]
+  • dependency_analysis.py: 15.2 kB [??]
+  • cli.py: 14.1 kB [??]
+  • exporters.py: 10.0 kB [??]
+  • advanced_filters.py: 9.9 kB [??]

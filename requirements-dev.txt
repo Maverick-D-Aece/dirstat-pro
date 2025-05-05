@@ -1,0 +1,9 @@
+pytest==8.0.0
+ruff==0.2.0
+coverage==7.4.0
+pytest-cov==4.1.0
+mypy==1.8.0
+types-setuptools
+types-toml
+types-PyYAML
+types-requests

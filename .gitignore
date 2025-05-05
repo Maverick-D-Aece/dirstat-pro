@@ -1,0 +1,7 @@
+.folder_summary_cache
+
+dist
+
+*/__pycache__
+
+
